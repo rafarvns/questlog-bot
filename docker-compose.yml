@@ -16,7 +16,7 @@ services:
     ports:
       - "5435:5432" # Changed from 5432 to avoid homelab conflicts
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB_CRAIG}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -33,7 +33,7 @@ services:
   craig:
     build:
       context: ./services/craig
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     restart: always
     environment:
       DATABASE_URL: ${CRAIG_DATABASE_URL}
