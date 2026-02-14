@@ -95,3 +95,7 @@ dist/
 # OS metadata
 .DS_Store
 Thumbs.db
+
+
+# bot
+recordings/
