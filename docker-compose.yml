@@ -33,7 +33,7 @@ services:
   craig:
     build:
       context: ./services/craig
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     restart: always
     environment:
       DATABASE_URL: ${CRAIG_DATABASE_URL}
