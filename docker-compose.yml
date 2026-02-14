@@ -1,0 +1,68 @@
+services:
+  # --- Infrastucture ---
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5435:5432" # Changed from 5432 to avoid homelab conflicts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6385:6379" # Changed from 6379 to avoid homelab conflicts
+
+  # --- Craig (Recording Bot) ---
+  craig:
+    build:
+      context: ./services/craig
+      dockerfile: dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: ${CRAIG_DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      DISCORD_APP_ID: ${DISCORD_APP_ID}
+      DEVELOPMENT_GUILD_ID: ${DEVELOPMENT_GUILD_ID}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - recordings:/app/rec
+    ports:
+      - "3080:3000" # Changed from 3000
+      - "5080:5029" # Changed from 5029
+
+  # --- Scribble Scribe (Transcription Service) ---
+  scribble:
+    build:
+      context: ./services/scribble-scribe
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: ${SCRIBBLE_DATABASE_URL}
+      WHISPER_MODEL: ${WHISPER_MODEL}
+      WHISPER_DEVICE: ${WHISPER_DEVICE}
+      RECORDINGS_PATH: ${RECORDINGS_PATH}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - recordings:/recordings
+
+volumes:
+  db_data:
+  recordings:
