@@ -1,0 +1,3 @@
+[submodule "services/craig"]
+	path = services/craig
+	url = git@github.com:CraigChat/craig.git
