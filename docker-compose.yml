@@ -36,7 +36,7 @@ services:
       dockerfile: dockerfile
     restart: always
     environment:
-      DATABASE_URL: ${CRAIG_DATABASE_URL}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB_CRAIG}?schema=public
       REDIS_URL: ${REDIS_URL}
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
       DISCORD_APP_ID: ${DISCORD_APP_ID}
@@ -60,7 +60,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      DATABASE_URL: ${SCRIBBLE_DATABASE_URL}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB_SCRIBBLE}
       WHISPER_MODEL: ${WHISPER_MODEL}
       WHISPER_DEVICE: ${WHISPER_DEVICE}
       RECORDINGS_PATH: ${RECORDINGS_PATH}
