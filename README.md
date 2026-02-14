@@ -20,8 +20,23 @@ The project is fully containerized and includes:
 
 ## ⚙️ Configuration & Setup
 
-### 1. Environment Variables
-Copy the example environment file and fill in your credentials:
+### 1. Discord Bot Setup
+To connect Craig to your Discord server, you must create an application in the [Discord Developer Portal](https://discord.com/developers/applications):
+
+1.  **Create Application**: Click "New Application" and give it a name.
+2.  **Bot Token**: Go to the "Bot" tab, click "Reset Token" to get your **`DISCORD_BOT_TOKEN`**.
+3.  **Privileged Gateway Intents**: In the same "Bot" tab, enable:
+    - `Presence Intent`
+    - `Server Members Intent`
+    - `Message Content Intent` (REQUIRED for commands)
+4.  **Client ID**: Go to "OAuth2" -> "General" to find your **`DISCORD_APP_ID`**.
+5.  **Invite Bot**: Go to "OAuth2" -> "URL Generator":
+    - Select Scopes: `bot`, `applications.commands`.
+    - Bot Permissions: `Administrator` (easiest for setup) or at least `Connect`, `Speak`, `Use Slash Commands`.
+6.  **Guild ID**: Enable "Developer Mode" in Discord settings, right-click your server icon, and "Copy Server ID" to get **`DEVELOPMENT_GUILD_ID`**.
+
+### 2. Environment Variables
+Copy the example environment file and fill in your credentials from the steps above:
 ```bash
 cp .env.example .env
 ```
