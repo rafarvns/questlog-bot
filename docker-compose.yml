@@ -53,6 +53,7 @@ services:
     volumes:
       - recordings:/app/rec
       - ./install.config:/app/install.config:ro
+    command: sh -c "rm -f /app/.installed && /app/install.sh && sleep infinity"
     ports:
       - "3080:3000" # Changed from 3000
       - "5080:5029" # Changed from 5029
