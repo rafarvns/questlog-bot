@@ -43,6 +43,8 @@ services:
       CLIENT_ID: ${DISCORD_APP_ID}
       CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
       DEVELOPMENT_GUILD_ID: ${DEVELOPMENT_GUILD_ID}
+      JWT_SECRET: ${JWT_SECRET}
+      APP_URI: ${APP_URI}
     depends_on:
       db:
         condition: service_healthy
